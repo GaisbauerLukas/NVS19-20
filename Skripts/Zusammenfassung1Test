@@ -1,0 +1,35 @@
+#Zusammenfassung 1.Test
+##Rest
+###pom.xml
+#### 1. Add Packaging
+Add under Version section:
+```xml
+<packaging>war</packaging>
+```
+#### 2. Add properties
+```xml
+ <properties>
+ 	<maven.compiler.source>1.8</maven.compiler.source>
+ 	<maven.compiler.target>1.8</maven.compiler.target>
+ 	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+ <properties>
+```
+#### 3. Add dependencies
+You have to add the javaee-web-api dependency. Use ALT + EINF
+It should look like this:
+```xml
+<dependencies>
+	<dependency>
+		<groupId>javax<groupId>
+		<artifactId>javaee-web-api</artifactId>
+		<version>8.0</version>
+		<scope>provided</scope>
+	</dependency>
+</dependencies>
+``` 
+####4. Add Build Name
+```xml
+<build>
+	<finalName>NameOfProject</finalName> 
+</build>
+```
