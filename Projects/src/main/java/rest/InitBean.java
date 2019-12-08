@@ -1,6 +1,6 @@
 package rest;
 
-import at.htl.readcsv.model.Person;
+import rest.model.Person;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.context.Initialized;
