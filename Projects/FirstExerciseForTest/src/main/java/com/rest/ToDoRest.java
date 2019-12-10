@@ -20,7 +20,6 @@ public class ToDoRest {
     @POST
     public Response createToDo(ToDo toDo){
         toDoService.createToDo(toDo);
-
         return Response.ok(toDo).build();
     }
 
