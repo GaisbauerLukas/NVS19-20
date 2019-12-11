@@ -1,6 +1,5 @@
 #Zusammenfassung 1.Test
-##Rest
-###pom.xml
+##pom.xml
 #### 1. Add Packaging
 Add under Version section:
 ```xml
@@ -9,8 +8,8 @@ Add under Version section:
 #### 2. Add properties
 ```xml
  <properties>
- 	<maven.compiler.source>1.8</maven.compiler.source>
- 	<maven.compiler.target>1.8</maven.compiler.target>
+ 	<maven.compiler.source>11</maven.compiler.source>
+ 	<maven.compiler.target>11</maven.compiler.target>
  	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
  <properties>
 ```
@@ -28,8 +27,145 @@ It should look like this:
 </dependencies>
 ``` 
 ####4. Add Build Name
+You have to add a build name. This name has to be part of path in wildfly config
 ```xml
 <build>
 	<finalName>NameOfProject</finalName> 
 </build>
 ```
+##Rest
+###RestConfig
+The class RestConfig has to be annotated with
+```
+@ApplicationPath("api/bsp")
+```
+The class also have to extend Applications
+###RestConfig
+Here we config the methods for inserting and reading from database
+The class have to be annotated with:
+```java
+@Transactional
+@ApplicationScoped
+```
+Then you have to add an Entity Manager:
+```java
+@PersistenceContext
+EntityManager entityManager;
+```
+Than you can insert update read delet,...... for example:
+```java
+ public ToDo createToDo(ToDo todo){
+        //Persist into db
+        entityManager.persist(todo);
+        return todo;
+    }
+
+    public ToDo updateToDo(ToDo toDo){
+        entityManager.merge(toDo);
+        return toDo;
+    }
+
+    public ToDo findToDoById(Long id){
+        return entityManager.find(ToDo.class,id);
+    }
+
+    public List<ToDo> getTodos(){
+        return entityManager.createQuery("Select t from ToDo t", ToDo.class).getResultList();
+    }
+```
+###RestClass
+Is just to combine Services with Path and Method
+Needs to be annotated with
+```
+@Path("todo")
+@Consumes(MediaType.APPLICATION_JSON)
+@Produces(MediaType.APPLICATION_JSON)
+```
+Than the Service has to be innjected with
+```java
+@Inject
+ToDoService toDoService;
+```
+Than you can create Methods annotated with a Path and a Type. For Example:
+```java
+@Path("new")
+    @POST
+    public Response createToDo(ToDo toDo){
+        toDoService.createToDo(toDo);
+        return Response.ok(toDo).build();
+    }
+
+    @Path("update")
+    @PUT
+    public Response updateToDo(ToDo toDo){
+        toDoService.updateToDo(toDo);
+        return Response.ok(toDo).build();
+    }
+
+    @Path("{id}")
+    @GET
+    public ToDo getTodo(@PathParam("id") Long id){
+        return toDoService.findToDoById(id);
+    }@Path("new")
+    @POST
+    public Response createToDo(ToDo toDo){
+        toDoService.createToDo(toDo);
+        return Response.ok(toDo).build();
+    }
+
+    @Path("update")
+    @PUT
+    public Response updateToDo(ToDo toDo){
+        toDoService.updateToDo(toDo);
+        return Response.ok(toDo).build();
+    }
+
+    @Path("{id}")
+    @GET
+    public ToDo getTodo(@PathParam("id") Long id){
+        return toDoService.findToDoById(id);
+    }
+
+    @Path("list")
+    @GET
+    public List<ToDo> getToDos(){
+        return toDoService.getTodos();
+    }
+
+    @Path("list")
+    @GET
+    public List<ToDo> getToDos(){
+        return toDoService.getTodos();
+    }
+```
+##JPA
+###Entities
+are Classes with the annotation
+```java
+@Entity
+```
+The primary Key's are annotated with:
+```java
+@Id
+```
+Generated values are annotated with:
+```
+@GeneratedValue(strategy = GenerationType.AUTO)
+```
+Methods that should be excecuted before start of Lifecycle have to be annotaed with:
+```
+@PrePersist
+```
+
+##Hints
+###DB
+You start the db with
+```console
+/opt/db-derby-10.14.2.0-bin/bin/startNetworkServer -noSecurityManager
+```
+###Tests
+Test's are annotatated with
+```java
+@Test
+```
+and the classes have to be placed in the test/java folder.

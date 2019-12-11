@@ -2,12 +2,16 @@ package com.service;
 
 import com.entity.ToDo;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.Initialized;
+import javax.enterprise.event.Observes;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 import java.util.List;
 
 @Transactional
+@ApplicationScoped
 public class ToDoService {
 
     @PersistenceContext
