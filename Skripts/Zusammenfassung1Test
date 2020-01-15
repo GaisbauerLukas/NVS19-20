@@ -150,7 +150,7 @@ The primary Key's are annotated with:
 ```
 Generated values are annotated with:
 ```
-@GeneratedValue(strategy = GenerationType.AUTO)
+@GeneratedValue(strategy = GenerationType.IDENTITY)
 ```
 Methods that should be excecuted before start of Lifecycle have to be annotaed with:
 ```
