@@ -19,7 +19,7 @@ public class Course {
     private LocalDateTime startDatetime;
     private int noOfMeetings;
 
-    @OneToOne(cascade = {CascadeType.ALL})
+    @ManyToOne(cascade = {CascadeType.ALL})
     @JoinColumn(name="id")
     private CourseType courseType;
 
