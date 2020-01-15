@@ -82,47 +82,9 @@ public class InitBean {
                 .lines()
                 .skip(1)
                 .map(s -> s.split(";"))
-                .map(a -> new Course(a[4], Double.valueOf(a[2]), LocalDateTime.parse(a[1]), Integer.valueOf(a[3]), new CourseType(a[0],"")))
+                .map(a -> parseCourse(a))
                 .distinct()
                 .forEach(em::merge);
-    }
-
-    private void createBookings(){
-        Person personA = new Person("Peter", "Griffin");
-        Person personB = new Person("Anton", "Bauer");
-        Person personC = new Person("Tony","Stark");
-
-        em.persist(personA);
-        em.persist(personB);
-        em.persist(personC);
-
-        Dog dogA = new Dog("Brian",personA);
-        Dog dogB = new Dog("Anton",personB);
-        Dog dogC = new Dog("Zamma",personC);
-
-        em.persist(dogA);
-        em.persist(dogB);
-        em.persist(dogC);
-
-        CourseType courseTypeA = new CourseType("WauWauMarathon","WWM");
-
-        em.persist(courseTypeA);
-
-        Course courseA = new Course("WauWau1", 22.0, LocalDateTime.now(),1,courseTypeA);
-        Course courseB = new Course("WauWau2", 44.0, LocalDateTime.now(),2,courseTypeA);
-        Course courseC = new Course("WauWau3", 66.0, LocalDateTime.now(),3,courseTypeA);
-
-        em.persist(courseA);
-        em.persist(courseB);
-        em.persist(courseC);
-
-        Booking bookingA = new Booking(courseA,dogA, LocalDate.now(),22.0);
-        Booking bookingB = new Booking(courseB,dogB, LocalDate.now(),44.0);
-        Booking bookingC = new Booking(courseC,dogC, LocalDate.now(),66.0);
-
-        em.persist(bookingA);
-        em.persist(bookingB);
-        em.persist(bookingC);
     }
 
     /**
@@ -137,7 +99,7 @@ public class InitBean {
      */
     private Course parseCourse(String[] elems) {
 
-
+        new Course(elems[4], Double.valueOf(elems[2]), LocalDateTime.parse(elems[1]), Integer.valueOf(elems[3]), new CourseType(elems[0],""));
         return null;
     }
 
