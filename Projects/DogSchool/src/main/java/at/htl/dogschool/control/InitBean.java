@@ -6,8 +6,7 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.context.Initialized;
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
+import javax.persistence.*;
 import javax.transaction.Transactional;
 import javax.ws.rs.ApplicationPath;
 import java.io.BufferedReader;
@@ -97,10 +96,18 @@ public class InitBean {
      * @param elems
      * @return the new Course-object
      */
+
+
     private Course parseCourse(String[] elems) {
 
-        new Course(elems[4], Double.valueOf(elems[2]), LocalDateTime.parse(elems[1]), Integer.valueOf(elems[3]), new CourseType(elems[0],""));
-        return null;
+        return new Course(
+                elems[4],
+                Double.valueOf(elems[2]),
+                LocalDateTime.parse(elems[1]),
+                Integer.valueOf(elems[3]),
+                em.createNamedQuery("CourseType.GetCourseByName",CourseType.class)
+                        .setParameter("NAME",elems[0])
+                        .getSingleResult());
     }
 
 }
