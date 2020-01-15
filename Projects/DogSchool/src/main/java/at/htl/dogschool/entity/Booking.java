@@ -2,6 +2,7 @@ package at.htl.dogschool.entity;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Table(name="S_Booking")
@@ -11,12 +12,12 @@ public class Booking {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @OneToOne(cascade = {CascadeType.ALL})
+    @OneToMany(cascade = {CascadeType.ALL})
     @JoinColumn(name="id")
-    private Course course;
-    @OneToOne(cascade = {CascadeType.ALL})
+    private List<Course> courses;
+    @OneToMany(cascade = {CascadeType.ALL})
     @JoinColumn(name="id")
-    private Dog dog;
+    private List<Dog> dogs;
 
     private LocalDate bookingDate;
     private double price;
@@ -25,9 +26,9 @@ public class Booking {
     public Booking() {
     }
 
-    public Booking(Course course, Dog dog, LocalDate bookingDate, double price) {
-        this.course = course;
-        this.dog = dog;
+    public Booking(List<Course> course, List<Dog> dog, LocalDate bookingDate, double price) {
+        this.courses = course;
+        this.dogs = dog;
         this.bookingDate = bookingDate;
         this.price = price;
     }
@@ -56,20 +57,20 @@ public class Booking {
         this.price = price;
     }
 
-    public Course getCourse() {
-        return course;
+    public List<Course> getCourse() {
+        return courses;
     }
 
-    public void setCourse(Course course) {
-        this.course = course;
+    public void setCourse(List<Course> course) {
+        this.courses = course;
     }
 
-    public Dog getDog() {
-        return dog;
+    public List<Dog> getDog() {
+        return dogs;
     }
 
-    public void setDog(Dog dog) {
-        this.dog = dog;
+    public void setDog(List<Dog> dog) {
+        this.dogs = dog;
     }
 
     //endregion
