@@ -83,9 +83,8 @@ public class InitBean {
                 .skip(1)
                 .map(s -> s.split(";"))
                 .map(a -> new Course(a[4], Double.valueOf(a[2]), LocalDateTime.parse(a[1]), Integer.valueOf(a[3]), new CourseType(a[0],"")))
+                .distinct()
                 .forEach(em::merge);
-
-
     }
 
     private void createBookings(){
