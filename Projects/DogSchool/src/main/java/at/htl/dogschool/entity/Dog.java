@@ -12,7 +12,7 @@ public class Dog {
 
     private String name;
 
-    @OneToOne(cascade = {CascadeType.ALL})
+    @ManyToOne(cascade = {CascadeType.ALL})
     @JoinColumn(name="id")
     private Person owner;
 
