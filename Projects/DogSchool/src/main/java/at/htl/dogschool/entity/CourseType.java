@@ -10,6 +10,7 @@ import javax.persistence.*;
  */
 
 @Entity
+@NamedQuery(name = "CourseType.GetCourseByName", query = "SELECT cp FROM CourseType cp WHERE CourseType.name = :NAME")
 @Table(name="S_Course_Type")
 public class CourseType {
 
